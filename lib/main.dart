@@ -36,6 +36,11 @@ class _VibrateHomePageState extends State<VibrateHomePage> {
   bool _isOn = false;
   double _intensity = 1.0;
 
+  bool _onVibrate = true;
+  bool _onFlash = true;
+  void _onChanged1(bool value) => setState(() => _onVibrate = value);
+  void _onChanged2(bool value) => setState(() => _onFlash = value);
+
   @override
   initState() {
     super.initState();
@@ -54,49 +59,71 @@ class _VibrateHomePageState extends State<VibrateHomePage> {
     setState(() { _hasFlash = hasFlash; });
   }
 
+
   @override
   Widget build(BuildContext context) {
+    MediaQueryData mediaQuery = MediaQuery.of(context);
+    double screenWidth = mediaQuery.size.width;
+    double screenHeight = mediaQuery.size.height;
+
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('Alarm System')
+        backgroundColor: Colors.blueAccent,
+        title: new Text('Alarm System'),
+        centerTitle: true,
       ),
 
       body: new Center(
         child: new Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-          new StreamBuilder(
-            initialData: AsyncSnapshot.nothing(),
-            stream: Firestore.instance.collection('vibratedata').snapshots(),
-            builder: (context, snapshot) {
-              if(!snapshot.hasData)
-                return Text('Loading data... Please wait...');
-                
-              bool vibrateBool = snapshot.data.documents[0]['vibrate'];
-              if (vibrateBool = true) {
-                Vibrate.vibrateWithPauses(pauses);
-                print("Yes it's gonna vibrate.");
-              }
+          new Container(
+            color: Color.fromRGBO(80, 80, 80, 1),
+            height: screenHeight/3,
+            width: screenWidth - 80,
+            child: new Center(            
+              child: Card(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    new StreamBuilder(
+                      initialData: AsyncSnapshot.nothing(),
+                      stream: Firestore.instance.collection('vibratedata').snapshots(),
+                      builder: (context, snapshot) {
+                        if(!snapshot.hasData)
+                          return Text('Loading data... Please wait...');
 
-              return Container();
-            }
+                        bool vibrateBool = snapshot.data.documents[0]['vibrate'];
+                        if (vibrateBool == true) {
+                          Vibrate.vibrateWithPauses(pauses);
+                          Lamp.flash(new Duration(seconds: 10));
+                          print("Yes it's gonna vibrate and flash.");
+                          return Container(
+                            child: 
+                              new Image(image: AssetImage('assets/customerAlert.jpg'), fit: BoxFit.cover),
+                          );
+                        }
+                        return Container(
+                          child: 
+                            new Image(image: AssetImage('assets/menu.jpg'), fit: BoxFit.cover),
+                        );
+                      }
+                    ),
+                  ]
+                )
+              )
+            )
           ),
-
-          new ListTile(
-            title: new Text("Test if vibration works!"),
-            leading: new Icon(Icons.vibration, color: Colors.teal),
-            onTap: !_canVibrate
-              ? () {}
-              : () {
-                  Vibrate.vibrateWithPauses(pauses);
-              },
+          new SwitchListTile(
+            value: _onVibrate,
+            onChanged: _onChanged1,
+            title: new Text('On / Off Vibration', style: new TextStyle(fontWeight: FontWeight.bold, color: Colors.blueAccent)),
           ),
-
-          new Slider(value: _intensity, onChanged: _isOn ? _intensityChanged : null),
-          new RaisedButton(onPressed: () async => await Lamp.flash(new Duration(seconds: 2)), child:  new Text("Flash for 2 seconds"))
+          new SwitchListTile(
+            value: _onFlash,
+            onChanged: _onChanged2,
+            title: new Text('On / Off Flash', style: new TextStyle(fontWeight: FontWeight.bold, color: Colors.blueAccent)),
+          ),
         ]),
       ),
-      floatingActionButton: new FloatingActionButton(
-        child: new Icon(_isOn ? Icons.flash_off : Icons.flash_on),
-        onPressed: _turnFlash),
     );
   }
 
@@ -116,3 +143,4 @@ class _VibrateHomePageState extends State<VibrateHomePage> {
     });
   }
 }
+
