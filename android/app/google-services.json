@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "796310201912",
+    "firebase_url": "https://handbrewmakerthon.firebaseio.com",
+    "project_id": "handbrewmakerthon",
+    "storage_bucket": "handbrewmakerthon.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:796310201912:android:d384d9d7d531abcc",
+        "android_client_info": {
+          "package_name": "com.example.handbrewalarm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "796310201912-v99dit6i2d25mlbq524k42ejkb9jv7jf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnx-vZpz4ZByDbktmYHWE_RpjX7yoM644"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:796310201912:android:b2a9661953751ab3",
+        "android_client_info": {
+          "package_name": "com.example.makerthon2018"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "796310201912-v99dit6i2d25mlbq524k42ejkb9jv7jf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnx-vZpz4ZByDbktmYHWE_RpjX7yoM644"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
